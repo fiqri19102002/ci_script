@@ -957,7 +957,7 @@ gen_zip5() {
 
 ##--------------------------------------------------------------##
 
-if [[ "$CI_BRANCH" == "11.0-personal" ]]; then
+if [[ "$CI_BRANCH" == "11.0-rebase" ]]; then
 	clone
 	setversioning5
 	cloneak3
