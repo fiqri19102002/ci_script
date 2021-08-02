@@ -179,11 +179,19 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 			GCC64_DIR=$KERNEL_DIR/gcc64
 			GCC32_DIR=$KERNEL_DIR/gcc32
 		else
-			msg "|| Cloning GCC 10.3.1 ||"
-			git clone https://github.com/fiqri19102002/aarch64-gcc.git -b gnu-gcc-10 --depth=1 gcc64
-			git clone https://github.com/fiqri19102002/arm-gcc.git -b gnu-gcc-10 --depth=1 gcc32
-			GCC64_DIR=$KERNEL_DIR/gcc64
-			GCC32_DIR=$KERNEL_DIR/gcc32
+			if [[ "$CI_BRANCH" == "11.0-rebase" ]]; then
+				msg "|| Cloning GCC 10.3.0 ||"
+				git clone https://github.com/fiqri19102002/aarch64-gcc.git -b gnu-gcc-10-tarballs --depth=1 gcc64
+				git clone https://github.com/fiqri19102002/arm-gcc.git -b gnu-gcc-10-tarballs --depth=1 gcc32
+				GCC64_DIR=$KERNEL_DIR/gcc64
+				GCC32_DIR=$KERNEL_DIR/gcc32
+			else
+				msg "|| Cloning GCC 10.3.1 ||"
+				git clone https://github.com/fiqri19102002/aarch64-gcc.git -b gnu-gcc-10 --depth=1 gcc64
+				git clone https://github.com/fiqri19102002/arm-gcc.git -b gnu-gcc-10 --depth=1 gcc32
+				GCC64_DIR=$KERNEL_DIR/gcc64
+				GCC32_DIR=$KERNEL_DIR/gcc32
+			fi
 		fi
 	fi
 
