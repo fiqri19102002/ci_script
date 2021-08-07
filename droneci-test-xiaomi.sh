@@ -181,8 +181,8 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 		else
 			if [[ "$CI_BRANCH" == "11.0-rebase" ]]; then
 				msg "|| Cloning GCC 10.3.0 ||"
-				git clone https://github.com/fiqri19102002/aarch64-gcc.git -b gnu-gcc-10-tarballs --depth=1 gcc64
-				git clone https://github.com/fiqri19102002/arm-gcc.git -b gnu-gcc-10-tarballs --depth=1 gcc32
+				git clone --depth=1 https://github.com/arter97/arm64-gcc.git gcc64
+				git clone --depth=1 https://github.com/arter97/arm32-gcc.git gcc32
 				GCC64_DIR=$KERNEL_DIR/gcc64
 				GCC32_DIR=$KERNEL_DIR/gcc32
 			else
@@ -222,7 +222,7 @@ exports() {
 			KBUILD_COMPILER_STRING="gcc version 8.3.0(GNU Toolchain for the A-profile Architecture 8.3-2019.03(arm-rel-8.36))"
 			PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
 		else
-			KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-gnu-gcc --version | head -n 1)
+			KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-elf-gcc --version | head -n 1)
 			PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
 		fi
 	fi
@@ -917,8 +917,8 @@ build_kernel3() {
 
 	if [ $COMPILER = "gcc" ]
 	then
-		export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-linux-gnueabi-
-		make -j"$PROCS" O=out CROSS_COMPILE=aarch64-linux-gnu-
+		export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-eabi-
+		make -j"$PROCS" O=out CROSS_COMPILE=aarch64-elf-
 	fi
 
 	BUILD_END=$(date +"%s")
